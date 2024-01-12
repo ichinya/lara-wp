@@ -1,17 +1,18 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "ichinya/lara-wp",
+    "description": "Работа с информацией из Wordpress в Laravel",
     "keywords": [
         ":vendor_name",
         "laravel",
         ":package_slug"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/ichinya/lara-wp",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Ichi",
+            "email": "info@ichiblog.ru",
+            "homepage": "https://ichiblog.ru",
             "role": "Developer"
         }
     ],
@@ -35,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Ichinya\\LaraWP\\": "src/",
+            "Ichinya\\LaraWP\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Ichinya\\LaraWP\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -73,10 +74,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Ichinya\\LaraWP\\LaraWPServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaraWP": "Ichinya\\LaraWP\\Facades\\LaraWP"
             }
         }
     },
