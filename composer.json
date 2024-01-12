@@ -2,9 +2,9 @@
     "name": "ichinya/lara-wp",
     "description": "Работа с информацией из Wordpress в Laravel",
     "keywords": [
-        ":vendor_name",
+        "ichinya",
         "laravel",
-        ":package_slug"
+        "lara-wp"
     ],
     "homepage": "https://github.com/ichinya/lara-wp",
     "license": "MIT",
@@ -48,7 +48,7 @@
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-lara-wp --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",

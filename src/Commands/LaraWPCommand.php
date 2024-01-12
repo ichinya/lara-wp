@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Ichinya\LaraWP\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaraWPCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'lara-wp';
 
     public $description = 'My command';
 
