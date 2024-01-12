@@ -2,9 +2,9 @@
 
 namespace Ichinya\LaraWP;
 
+use Ichinya\LaraWP\Commands\LaraWPCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Ichinya\LaraWP\Commands\LaraWPCommand;
 
 class LaraWPServiceProvider extends PackageServiceProvider
 {

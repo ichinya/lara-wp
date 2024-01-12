@@ -2,9 +2,9 @@
 
 namespace Ichinya\LaraWP\Tests;
 
+use Ichinya\LaraWP\LaraWPServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Ichinya\LaraWP\LaraWPServiceProvider;
 
 class TestCase extends Orchestra
 {
