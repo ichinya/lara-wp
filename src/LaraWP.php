@@ -10,15 +10,17 @@ use Illuminate\Support\Str;
 class LaraWP
 {
     private array $wp_config = [];
+
     private ?Connection $connection = null;
+
     private static ?LaraWP $instance = null;
 
     public function __construct()
     {
         $file = public_path('wp-config.php');
 
-        if (!is_file($file)) {
-            die("NO FILE: " . $file);
+        if (! is_file($file)) {
+            exit('NO FILE: '.$file);
         }
 
         $wp_config = file_get_contents($file);
@@ -32,9 +34,10 @@ class LaraWP
 
     public static function getInstanse(): static
     {
-        if (!isset(self::$instance)) {
+        if (! isset(self::$instance)) {
             self::$instance = new static();
         }
+
         return self::$instance;
     }
 
@@ -45,13 +48,13 @@ class LaraWP
 
     public function db(): \Illuminate\Database\Connection
     {
-        if (!isset($this->connection)) {
-            Config::set("database.connections.wordpress", [
+        if (! isset($this->connection)) {
+            Config::set('database.connections.wordpress', [
                 'driver' => 'mysql',
-                "host" => $this->getConfig('DB_HOST'),
-                "database" => $this->getConfig('DB_NAME'),
-                "username" => $this->getConfig('DB_USER'),
-                "password" => $this->getConfig('DB_PASSWORD'),
+                'host' => $this->getConfig('DB_HOST'),
+                'database' => $this->getConfig('DB_NAME'),
+                'username' => $this->getConfig('DB_USER'),
+                'password' => $this->getConfig('DB_PASSWORD'),
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => 'wp_',
@@ -60,6 +63,7 @@ class LaraWP
             ]);
             $this->connection = DB::connection('wordpress');
         }
+
         return $this->connection;
     }
 }
