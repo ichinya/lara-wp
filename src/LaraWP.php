@@ -22,11 +22,11 @@ class LaraWP
         }
         $file = public_path('wp-config.php');
 
-        if (! is_file($file)) {
-            exit('NO FILE: '.$file);
+        if (! is_file($wp_config_filepath)) {
+            exit('NO FILE: '.$wp_config_filepath);
         }
 
-        $wp_config = file_get_contents($file);
+        $wp_config = file_get_contents($wp_config_filepath);
         $re = '/define\(.*\'(\w+)\',(.*)\);/m';
         preg_match_all($re, $wp_config, $matches, PREG_SET_ORDER, 0);
 
