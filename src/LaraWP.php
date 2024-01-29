@@ -17,13 +17,13 @@ class LaraWP
 
     public function __construct($wp_config_filepath = null)
     {
-        if (!is_null($wp_config_filepath)) {
+        if (! is_null($wp_config_filepath)) {
             $wp_config_filepath = public_path('wp-config.php');
         }
         $file = public_path('wp-config.php');
 
-        if (!is_file($file)) {
-            exit('NO FILE: ' . $file);
+        if (! is_file($file)) {
+            exit('NO FILE: '.$file);
         }
 
         $wp_config = file_get_contents($file);
@@ -37,7 +37,7 @@ class LaraWP
 
     public static function getInstanse(): static
     {
-        if (!isset(self::$instance)) {
+        if (! isset(self::$instance)) {
             self::$instance = new static();
         }
 
@@ -51,7 +51,7 @@ class LaraWP
 
     public function db(): \Illuminate\Database\Connection
     {
-        if (!isset($this->connection)) {
+        if (! isset($this->connection)) {
             Config::set('database.connections.wordpress', [
                 'driver' => 'mysql',
                 'host' => $this->getConfig('DB_HOST'),
