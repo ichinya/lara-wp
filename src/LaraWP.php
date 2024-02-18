@@ -2,6 +2,7 @@
 
 namespace Ichinya\LaraWP;
 
+use Ichinya\LaraWP\Exceptions\NoConfigException;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -9,49 +10,71 @@ use Illuminate\Support\Str;
 
 class LaraWP
 {
-    private array $wp_config = [];
+    private array $wpConfig = [];
 
     private ?Connection $connection = null;
 
-    private static ?LaraWP $instance = null;
+    private static ?self $instance = null;
 
-    public function __construct($wp_config_filepath = null)
+
+    /**
+     * Constructor for initializing the wp_config object.
+     *
+     * @param string|null $wpConfigFilePath The file path to the wp-config.php file
+     * @throws NoConfigException When the wp_config file is not found
+     */
+    public function __construct(?string $wpConfigFilePath = null)
     {
-        if (! is_null($wp_config_filepath)) {
-            $wp_config_filepath = public_path('wp-config.php');
-        }
-        $file = public_path('wp-config.php');
+        // Set default file path if not provided
+        $wpConfigFilePath = $wpConfigFilePath ?? public_path('wp-config.php');
 
-        if (! is_file($wp_config_filepath)) {
-            exit('NO FILE: '.$wp_config_filepath);
+        // Throw exception if file is not found
+        if (!file_exists($wpConfigFilePath)) {
+            throw new NoConfigException('NO FILE: ' . $wpConfigFilePath);
         }
 
-        $wp_config = file_get_contents($wp_config_filepath);
+        // Read wp-config file and extract define statements
+        $wpConfig = file_get_contents($wpConfigFilePath);
         $re = '/define\(.*\'(\w+)\',(.*)\);/m';
-        preg_match_all($re, $wp_config, $matches, PREG_SET_ORDER, 0);
+        preg_match_all($re, $wpConfig, $matches, PREG_SET_ORDER, 0);
 
+        // Map define statements to wpConfig array
         foreach ($matches as $match) {
-            $this->wp_config[$match[1]] = trim(Str::replace(['\''], '', $match[2]));
+            $this->wpConfig[$match[1]] = trim(Str::replace(['\''], '', $match[2]));
         }
     }
 
-    public static function getInstanse(): static
+    /**
+     * Get the instance of the class.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
     {
-        if (! isset(self::$instance)) {
-            self::$instance = new static();
-        }
-
-        return self::$instance;
+        return self::$instance ??= new self();
     }
 
-    public function getConfig($key, $default = null)
+    /**
+     * Get a configuration value from the wp-config.
+     *
+     * @param string $key The key to retrieve
+     * @param mixed $default The default value if the key is not found
+     * @return mixed
+     */
+    public function getConfig(string $key, mixed $default = null): mixed
     {
-        return $this->wp_config[$key] ?? $default;
+        return $this->wpConfig[$key] ?? $default;
     }
 
-    public function db(): \Illuminate\Database\Connection
+    /**
+     * Get the database connection or create it.
+     *
+     * @return Connection
+     */
+    public function db(): Connection
     {
-        if (! isset($this->connection)) {
+        // Set up the database configuration if it doesn't exist
+        if (!isset($this->connection)) {
             Config::set('database.connections.wordpress', [
                 'driver' => 'mysql',
                 'host' => $this->getConfig('DB_HOST'),
@@ -64,9 +87,9 @@ class LaraWP
                 'strict' => false,
                 'engine' => null,
             ]);
-            $this->connection = DB::connection('wordpress');
         }
 
-        return $this->connection;
+        // Return the database connection
+        return $this->connection ??= DB::connection('wordpress');
     }
 }
