@@ -16,11 +16,11 @@ class LaraWP
 
     private static ?self $instance = null;
 
-
     /**
      * Constructor for initializing the wp_config object.
      *
-     * @param string|null $wpConfigFilePath The file path to the wp-config.php file
+     * @param  string|null  $wpConfigFilePath  The file path to the wp-config.php file
+     *
      * @throws NoConfigException When the wp_config file is not found
      */
     public function __construct(?string $wpConfigFilePath = null)
@@ -29,8 +29,8 @@ class LaraWP
         $wpConfigFilePath = $wpConfigFilePath ?? public_path('wp-config.php');
 
         // Throw exception if file is not found
-        if (!file_exists($wpConfigFilePath)) {
-            throw new NoConfigException('NO FILE: ' . $wpConfigFilePath);
+        if (! file_exists($wpConfigFilePath)) {
+            throw new NoConfigException('NO FILE: '.$wpConfigFilePath);
         }
 
         // Read wp-config file and extract define statements
@@ -46,20 +46,17 @@ class LaraWP
 
     /**
      * Get the instance of the class.
-     *
-     * @return self
      */
     public static function getInstance(): self
     {
-        return self::$instance ??= new self();
+        return self::$instance ??= new self;
     }
 
     /**
      * Get a configuration value from the wp-config.
      *
-     * @param string $key The key to retrieve
-     * @param mixed $default The default value if the key is not found
-     * @return mixed
+     * @param  string  $key  The key to retrieve
+     * @param  mixed  $default  The default value if the key is not found
      */
     public function getConfig(string $key, mixed $default = null): mixed
     {
@@ -68,13 +65,11 @@ class LaraWP
 
     /**
      * Get the database connection or create it.
-     *
-     * @return Connection
      */
     public function db(): Connection
     {
         // Set up the database configuration if it doesn't exist
-        if (!isset($this->connection)) {
+        if (! isset($this->connection)) {
             Config::set('database.connections.wordpress', [
                 'driver' => 'mysql',
                 'host' => $this->getConfig('DB_HOST'),
