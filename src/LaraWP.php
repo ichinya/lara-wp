@@ -19,7 +19,7 @@ class LaraWP
     /**
      * Constructor for initializing the wp_config object.
      *
-     * @param  string|null  $wpConfigFilePath  The file path to the wp-config.php file
+     * @param string|null $wpConfigFilePath The file path to the wp-config.php file
      *
      * @throws NoConfigException When the wp_config file is not found
      */
@@ -29,12 +29,19 @@ class LaraWP
         $wpConfigFilePath = $wpConfigFilePath ?? public_path('wp-config.php');
 
         // Throw exception if file is not found
-        if (! file_exists($wpConfigFilePath)) {
-            throw new NoConfigException('NO FILE: '.$wpConfigFilePath);
+        if (!file_exists($wpConfigFilePath)) {
+            throw new NoConfigException('NO FILE: ' . $wpConfigFilePath);
         }
 
         // Read wp-config file and extract define statements
         $wpConfig = file_get_contents($wpConfigFilePath);
+
+        $re = '/\$(\w+)\s*=\s*(.*);/m';
+        preg_match_all($re, $wpConfig, $matches, PREG_SET_ORDER, 0);
+        foreach ($matches as $match) {
+            $this->wpConfig[$match[1]] = trim(Str::replace(['\''], '', $match[2]));
+        }
+
         $re = '/define\(.*\'(\w+)\',(.*)\);/m';
         preg_match_all($re, $wpConfig, $matches, PREG_SET_ORDER, 0);
 
@@ -42,6 +49,13 @@ class LaraWP
         foreach ($matches as $match) {
             $this->wpConfig[$match[1]] = trim(Str::replace(['\''], '', $match[2]));
         }
+
+        data_fill($this->wpConfig, 'table_prefix', 'wp_');
+
+        if ($this->getConfig('DB_CHARSET') == 'utf8mb4' && empty($this->getConfig('DB_COLLATE'))) {
+            $this->wpConfig['DB_COLLATE'] = 'utf8mb4_unicode_ci';
+        }
+
     }
 
     /**
@@ -55,8 +69,8 @@ class LaraWP
     /**
      * Get a configuration value from the wp-config.
      *
-     * @param  string  $key  The key to retrieve
-     * @param  mixed  $default  The default value if the key is not found
+     * @param string $key The key to retrieve
+     * @param mixed $default The default value if the key is not found
      */
     public function getConfig(string $key, mixed $default = null): mixed
     {
@@ -69,16 +83,16 @@ class LaraWP
     public function db(): Connection
     {
         // Set up the database configuration if it doesn't exist
-        if (! isset($this->connection)) {
+        if (!isset($this->connection)) {
             Config::set('database.connections.wordpress', [
                 'driver' => 'mysql',
                 'host' => $this->getConfig('DB_HOST'),
                 'database' => $this->getConfig('DB_NAME'),
                 'username' => $this->getConfig('DB_USER'),
                 'password' => $this->getConfig('DB_PASSWORD'),
-                'charset' => 'utf8',
-                'collation' => 'utf8_unicode_ci',
-                'prefix' => 'wp_',
+                'charset' => $this->getConfig('DB_CHARSET', 'utf8'),
+                'collation' => $this->getConfig('DB_COLLATE', 'utf8_unicode_ci'),
+                'prefix' => $this->getConfig('table_prefix', 'wp_'),
                 'strict' => false,
                 'engine' => null,
             ]);
