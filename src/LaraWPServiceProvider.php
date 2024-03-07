@@ -10,6 +10,7 @@ class LaraWPServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
+
         /*
          * This class is a Package Service Provider
          *
@@ -21,5 +22,7 @@ class LaraWPServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_lara-wp_table')
             ->hasCommand(LaraWPCommand::class);
+
+        Facades\LaraWP::db();
     }
 }
