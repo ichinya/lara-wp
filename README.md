@@ -52,8 +52,8 @@ php artisan vendor:publish --tag="lara-wp-views"
 ## Usage
 
 ```php
-$laraWP = new Ichinya\LaraWP();
-echo $laraWP->echoPhrase('Hello, Ichinya!');
+$post = \Ichinya\LaraWP\Models\Post::find(1);
+dd($post);
 ```
 
 ## Testing
