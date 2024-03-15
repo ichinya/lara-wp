@@ -30,7 +30,9 @@ class LaraWP
 
         // Throw exception if file is not found
         if (! file_exists($wpConfigFilePath)) {
-            throw new NoConfigException('NO FILE: '.$wpConfigFilePath);
+            report(new NoConfigException('NO FILE: '.$wpConfigFilePath));
+
+            return;
         }
 
         // Read wp-config file and extract define statements
