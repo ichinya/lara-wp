@@ -16,5 +16,6 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     protected $connection = 'wordpress';
+
     public $timestamps = false;
 }

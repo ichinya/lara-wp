@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Postmeta extends Model
 {
-
     protected $table = 'postmeta';
-    protected $connection = 'wordpress';
-    public $timestamps = false;
 
+    protected $connection = 'wordpress';
+
+    public $timestamps = false;
 }

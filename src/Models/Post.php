@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     protected $connection = 'wordpress';
-    public $timestamps = false;
 
+    public $timestamps = false;
 
     public function author(): BelongsTo
     {
@@ -20,5 +20,4 @@ class Post extends Model
     {
         return $this->hasMany(Postmeta::class, 'post_id', 'ID');
     }
-
 }
