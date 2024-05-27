@@ -3,10 +3,10 @@
 namespace Ichinya\LaraWP\Models;
 
 use Ichinya\LaraWP\Enums\PostStatuses;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -33,5 +33,4 @@ class Post extends Model
     {
         $query->where('post_status', $status->value);
     }
-
 }
