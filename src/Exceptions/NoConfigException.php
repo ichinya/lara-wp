@@ -2,6 +2,4 @@
 
 namespace Ichinya\LaraWP\Exceptions;
 
-class NoConfigException extends BaseException
-{
-}
+class NoConfigException extends BaseException {}
