@@ -9,11 +9,7 @@ This is where your description should go. Limit it to a paragraph or two. Consid
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/lara-wp.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/lara-wp)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Проблемы или дополнения пишите [в соответсвующий раздел на GitHub](https://github.com/Ichinya/lara-wp/issues)
 
 ## Installation
 
@@ -23,12 +19,6 @@ You can install the package via composer:
 composer require ichinya/lara-wp
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="lara-wp-migrations"
-php artisan migrate
-```
 
 You can publish the config file with:
 
@@ -53,6 +43,10 @@ php artisan vendor:publish --tag="lara-wp-views"
 
 ```php
 $post = \Ichinya\LaraWP\Models\Post::find(1);
+# or
+$post =  \Ichinya\LaraWP\Models\Post::query()->with('meta')->status(PostStatuses::Draft)->first();
+# or
+$post =  \Ichinya\LaraWP\Models\Post::query()->with('meta')->published()->first(); 
 dd($post);
 ```
 
