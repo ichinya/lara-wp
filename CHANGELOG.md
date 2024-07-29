@@ -2,6 +2,14 @@
 
 All notable changes to `lara-wp` will be documented in this file.
 
+## 1.0.4 - 2024-07-29
+
+### What's Changed
+
+* add phpdoc and casts to model post by @Ichinya in https://github.com/Ichinya/lara-wp/pull/25
+
+**Full Changelog**: https://github.com/Ichinya/lara-wp/compare/1.0.3...1.0.4
+
 ## 1.0.3 - 2024-05-27
 
 ### What's Changed
