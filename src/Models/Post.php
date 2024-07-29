@@ -38,6 +38,7 @@ class Post extends Model
     protected $connection = 'wordpress';
 
     public $timestamps = false;
+
     protected $primaryKey = 'ID';
 
     protected $casts = [
