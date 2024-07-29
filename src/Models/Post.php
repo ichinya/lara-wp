@@ -2,6 +2,7 @@
 
 namespace Ichinya\LaraWP\Models;
 
+use Carbon\Carbon;
 use Ichinya\LaraWP\Enums\PostStatuses;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $ID
  * @property int $post_author
- * @property string $post_date
- * @property string $post_date_gmt
+ * @property Carbon $post_date
+ * @property Carbon $post_date_gmt
  * @property string $post_content
  * @property string $post_title
  * @property string $post_excerpt
@@ -22,8 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $post_password
  * @property string $post_name
  * @property string $to_ping
- * @property string $post_modified
- * @property string $post_modified_gmt
+ * @property Carbon $post_modified
+ * @property Carbon $post_modified_gmt
  * @property string $post_content_filtered
  * @property int $post_parent
  * @property string $guid
@@ -37,8 +38,15 @@ class Post extends Model
     protected $connection = 'wordpress';
 
     public $timestamps = false;
-
     protected $primaryKey = 'ID';
+
+    protected $casts = [
+        'post_date' => 'datetime:Y-m-d H:i:s',
+        'post_date_gmt' => 'datetime',
+        'post_modified' => 'datetime:Y-m-d H:i:s',
+        'post_modified_gmt' => 'datetime',
+        'post_status' => PostStatuses::class,
+    ];
 
     public function author(): BelongsTo
     {
