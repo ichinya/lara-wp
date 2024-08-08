@@ -9,4 +9,6 @@ class Option extends Model
     protected $connection = 'wordpress';
 
     public $timestamps = false;
+    protected $primaryKey = 'option_id';
+
 }
