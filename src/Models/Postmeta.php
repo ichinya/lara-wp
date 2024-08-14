@@ -10,5 +10,7 @@ class Postmeta extends Model
 
     protected $connection = 'wordpress';
 
+    protected $primaryKey = 'meta_id';
+
     public $timestamps = false;
 }
